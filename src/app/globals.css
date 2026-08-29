@@ -1,0 +1,141 @@
+@import "tailwindcss";
+
+:root {
+  /* Premium White & Yellow-Lime Theme */
+  --background: #f5f6f5; /* Clean soft off-white */
+  --foreground: #141c14; /* Deep slate-green text for contrast */
+  --card: #ffffff;
+  --card-foreground: #141c14;
+  --popover: #ffffff;
+  --popover-foreground: #141c14;
+  
+  --primary: #d0f025; /* Premium Neon Yellow-Lime */
+  --primary-foreground: #141c14; /* Dark text for contrast on yellow */
+  
+  --secondary: #edf1ed; /* Soft light-gray / sage container background */
+  --secondary-foreground: #1c2b1c;
+  
+  --accent: #d0f025;
+  --accent-foreground: #141c14;
+  
+  --muted: #e6ebe6;
+  --muted-foreground: #5a6b5a;
+  
+  --border: #e2e7e2;
+  --radius: 1.25rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --radius-lg: var(--radius);
+}
+
+.dark {
+  --background: #000000; /* Deep black */
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --popover: #0a0a0a;
+  --popover-foreground: #ffffff;
+  
+  --primary: #d0f025; /* Premium Yellow-Lime */
+  --primary-foreground: #000000;
+  
+  --secondary: #111111;
+  --secondary-foreground: #d0f025;
+  
+  --accent: #d0f025;
+  --accent-foreground: #000000;
+  
+  --muted: #1a1a1a;
+  --muted-foreground: #888888;
+  
+  --border: #222222;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --background: #000000; /* Deep black */
+    --foreground: #ffffff;
+    --card: #0a0a0a;
+    --card-foreground: #ffffff;
+    --popover: #0a0a0a;
+    --popover-foreground: #ffffff;
+    
+    --primary: #d0f025; /* Premium Yellow-Lime */
+    --primary-foreground: #000000;
+    
+    --secondary: #111111;
+    --secondary-foreground: #d0f025;
+    
+    --accent: #d0f025;
+    --accent-foreground: #000000;
+    
+    --muted: #1a1a1a;
+    --muted-foreground: #888888;
+    
+    --border: #222222;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Custom calming gradients */
+.bg-calm-gradient {
+  background: linear-gradient(135deg, #eef5f0 0%, #e0ece4 100%);
+}
+
+.bg-accent-gradient {
+  background: linear-gradient(135deg, #5b92e5 0%, #3f7ad8 100%);
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .bg-calm-gradient {
+  background: linear-gradient(135deg, #050505 0%, #000000 100%);
+}
+
+.dark .glass {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .bg-calm-gradient {
+    background: linear-gradient(135deg, #050505 0%, #000000 100%);
+  }
+
+  :root:not(.light) .glass {
+    background: rgba(10, 10, 10, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}

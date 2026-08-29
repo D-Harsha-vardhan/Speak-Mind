@@ -1,0 +1,122 @@
+model User {
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  passwordHash    String            @map("password_hash")
+  ageRange        String            @map("age_range")
+  preferences     Json              @default("{}")
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       temporal.updatedAtString() @map("updated_at")
+  
+  conversations   Conversation[]
+  checkins        CheckIn[]
+  journalEntries  JournalEntry[]
+  emotionEvents   EmotionEvent[]
+  insights        Insight[]
+  activityHistory ActivityHistory[]
+  safetyEvents    SafetyEvent[]
+
+  @@map("users")
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now()) @map("created_at")
+  messages  Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String       @map("conversation_id")
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String       // "user" | "assistant" | "system"
+  content        String
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  @@map("messages")
+}
+
+model CheckIn {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  moodLabel String   @map("mood_label")
+  themes    Json     @default("[]") // Store as string array in JSON
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("checkins")
+}
+
+model JournalEntry {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content            String
+  aiAnalysisEnabled  Boolean  @default(true) @map("ai_analysis_enabled")
+  createdAt          DateTime @default(now()) @map("created_at")
+
+  @@map("journal_entries")
+}
+
+model EmotionEvent {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emotion    String
+  confidence Float
+  themes     Json     @default("[]") // Store as string array in JSON
+  source     String   // "chat" | "journal"
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("emotion_events")
+}
+
+model Insight {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insightType    String   @map("insight_type") // e.g. "academic_stress"
+  title          String
+  explanation    String
+  evidence       String
+  recommendation String
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("insights")
+}
+
+model Activity {
+  id          String            @id @default(uuid())
+  title       String
+  category    String            // "calm" | "focus" | "reflection" | "sleep" | "social"
+  description String
+  duration    Int               // Duration in minutes
+  history     ActivityHistory[]
+
+  @@map("activities")
+}
+
+model ActivityHistory {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activityId  String   @map("activity_id")
+  activity    Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now()) @map("completed_at")
+
+  @@map("activity_history")
+}
+
+model SafetyEvent {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  severity  String   // "NORMAL" | "DISTRESS" | "HIGH_CONCERN" | "IMMEDIATE_SUPPORT_NEEDED"
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("safety_events")
+}
