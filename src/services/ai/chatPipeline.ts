@@ -29,7 +29,7 @@ export class ChatPipeline {
     }
 
     // 2. RUN BACKGROUND EMOTION LOGGING (Fire and Forget)
-    EmotionService.analyzeAndLog(sanitizedInput, "chat", userId).catch(e => {
+    EmotionService.analyzeAndLog(sanitizedInput, "chat", userId).catch((e: any) => {
       console.error("Pipeline emotion analysis background error:", e);
     });
     let detectedEmotion = "neutral";
@@ -41,11 +41,11 @@ export class ChatPipeline {
 
     try {
       const [safetyResult, fetchedMessages] = await Promise.all([
-        SafetyService.evaluateInput(sanitizedInput, userId).catch(e => {
+        SafetyService.evaluateInput(sanitizedInput, userId).catch((e: any) => {
           console.error("Pipeline safety evaluation error:", e);
           return "NORMAL" as SafetySeverity;
         }),
-        db.orm.public.Message.where({ conversationId }).all().catch(e => {
+        db.orm.public.Message.where({ conversationId }).all().catch((e: any) => {
           console.error("Context engine error retrieving history:", e);
           return [];
         })
