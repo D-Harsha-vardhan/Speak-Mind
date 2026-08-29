@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     
     // Set this URL to your hosted Next.js production address (e.g. Vercel deployment URL),
     // or point it to your local machine IP address when testing locally with a phone!
-    private val appUrl = "http://10.53.105.17:3000" // Use Local IP for wireless testing
+    private val appUrl = "https://speak-mind-02.vercel.app/" // Live Production URL
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
