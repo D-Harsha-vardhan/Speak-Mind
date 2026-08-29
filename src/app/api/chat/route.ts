@@ -29,15 +29,17 @@ export async function POST(request: NextRequest) {
     // 3. Retrieve or create conversation
     if (conversationId) {
       // Verify conversation belongs to the user
-      const existingConv = await db.orm.public.Conversation
+      let existingConv = await db.orm.public.Conversation
         .where({ id: conversationId })
         .first();
 
       if (!existingConv) {
-        return NextResponse.json(
-          { error: "Conversation not found" },
-          { status: 404 }
-        );
+        // Vercel serverless functions can wipe the in-memory database between requests.
+        // If the conversation is missing, gracefully recreate it to prevent a crash.
+        existingConv = await db.orm.public.Conversation.create({
+          id: conversationId,
+          userId: session.userId,
+        });
       }
 
       if (existingConv.userId !== session.userId) {
