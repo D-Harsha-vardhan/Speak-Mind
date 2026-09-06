@@ -58,7 +58,7 @@
    ```bash
    npm run dev
    ```
-   Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+  
 
 ## 📱 Android App Setup
 
@@ -80,3 +80,4 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 
 ---
 *Take a deep breath. Your mental health matters.* 💙
+4566
